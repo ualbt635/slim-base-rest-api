@@ -1,0 +1,32 @@
+# Composer
+/vendor/
+/composer.lock
+
+# PHPStorm
+/.idea
+
+# VSCode
+/.vscode
+
+# Node
+/node_modules/
+/npm-debug.log
+/yarn-error.log
+
+# Logs
+*.log
+
+# Environment variables
+.env
+
+# Cache
+/cache/
+/tmp/
+
+# PHPUnit
+/phpunit.xml
+/phpunit.xml.dist
+
+# Slim Framework
+/public/cache/
+/public/logs/
