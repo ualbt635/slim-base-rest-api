@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación de la API REST de Productos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+            margin-top: 25px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 5px solid #3498db;
+        }
+        strong {
+            color: #e74c3c;
+        }
+        code {
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: "Courier New", Courier, monospace;
+            color: #2c3e50;
+        }
+        .method {
+            font-weight: bold;
+            color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <h1>Documentación de la API REST de Productos</h1>
+    <p>Esta API REST ha sido desarrollada utilizando el microframework <strong>Slim Framework en PHP</strong> para interactuar con una base de datos <strong>MySQL</strong> [1, 2]. Su propósito principal es permitir la gestión de una lista de productos a través de operaciones estandarizadas del protocolo HTTP [1].</p>
+    <p>La API sigue los principios de la arquitectura REST, utilizando métodos HTTP estándar (GET, POST, PUT, DELETE) para realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) sobre los recursos, que en este caso son los productos [2-4]. El formato de intercambio de datos principal es <strong>JSON</strong> [2, 5].</p>
+
+    <h2>Principios Clave de la API</h2>
+    <ul>
+        <li><strong>Comunicación basada en HTTP:</strong> Todas las solicitudes y respuestas se realizan a través del protocolo HTTP [3].</li>
+        <li><strong>Métodos HTTP Estándar:</strong> La API utiliza los métodos <code>GET</code>, <code>POST</code>, <code>PUT</code> y <code>DELETE</code> para las operaciones de lectura, creación, actualización y eliminación, respectivamente [4, 6].</li>
+        <li><strong>Recursos Identificables por URL:</strong> Cada producto u operación específica se identifica mediante una URL única, conocida como endpoint [7].</li>
+        <li><strong>Formato JSON para Datos:</strong> La información se envía y recibe principalmente en formato JSON, siendo un formato ligero y fácil de leer [5].</li>
+        <li><strong>Códigos de Estado HTTP:</strong> Las respuestas de la API incluyen códigos de estado HTTP para indicar el resultado de la operación (por ejemplo, <code>200 OK</code> para éxito, <code>201 Created</code> para creación exitosa, <code>404 Not Found</code> para rutas inexistentes, o <code>204 No Content</code> para recursos no encontrados) [8-13].</li>
+    </ul>
+
+    <h2>Rutas (Endpoints) Disponibles</h2>
+    <p>A continuación se detallan las rutas que esta API ofrece para interactuar con los productos y la propia documentación:</p>
+
+    <ul>
+        <li><span class="method">GET</span> <strong><code>/</code> o <code>/docs</code></strong>
+            <ul>
+                <li><strong>Descripción:</strong> Permite el acceso a esta misma página de documentación de la API [14-16].</li>
+                <li><strong>Respuesta:</strong> Contenido HTML de esta documentación con tipo <code>text/html</code> [14].</li>
+            </ul>
+        </li>
+        <li><span class="method">GET</span> <strong><code>/test</code></strong>
+            <ul>
+                <li><strong>Descripción:</strong> Ruta de prueba simple para verificar que la API está funcionando correctamente [15, 17].</li>
+                <li><strong>Respuesta:</strong> Un mensaje JSON con el contenido <code>{"status": 200, "message": "Test route"}</code> [16].</li>
+            </ul>
+        </li>
+        <li><span class="method">GET</span> <strong><code>/products</code></strong>
+            <ul>
+                <li><strong>Descripción:</strong> Recupera una lista de todos los productos disponibles en la base de datos [18, 19].</li>
+                <li><strong>Parámetros de consulta (opcional):</strong>
+                    <ul>
+                        <li><code>name</code>: Permite filtrar productos por nombre (Ejemplo: <code>/products?name=Product%201</code>) [20].</li>
+                    </ul>
+                </li>
+                <li><strong>Respuesta (Éxito):</strong> Código <code>200 OK</code> con una lista de productos en formato JSON [21-23].</li>
+                <li><strong>Respuesta (Sin Contenido):</strong> Código <code>204 No Content</code> si no se encuentran productos [10].</li>
+            </ul>
+        </li>
+        <li><span class="method">GET</span> <strong><code>/products/{id}</code></strong>
+            <ul>
+                <li><strong>Descripción:</strong> Recupera la información de un producto específico utilizando su identificador único (ID) [19, 24].</li>
+                <li><strong>Parámetros de ruta:</strong>
+                    <ul>
+                        <li><code>{id}</code>: El ID del producto a recuperar (Ejemplo: <code>/products/1</code>) [24, 25].</li>
+                    </ul>
+                </li>
+                <li><strong>Respuesta (Éxito):</strong> Código <code>200 OK</code> con los detalles del producto en formato JSON [11].</li>
+                <li><strong>Respuesta (No Encontrado):</strong> Código <code>204 No Content</code> si el producto con el ID especificado no existe [11].</li>
+            </ul>
+        </li>
+        <li><span class="method">POST</span> <strong><code>/products</code></strong>
+            <ul>
+                <li><strong>Descripción:</strong> Crea un nuevo producto en la base de datos [19, 26]. El ID del producto es generado automáticamente por el servidor [27].</li>
+                <li><strong>Cuerpo de la solicitud (Body):</strong> Debe contener los datos del nuevo producto en formato JSON (Ejemplo: <code>{"name": "Nuevo Producto", "price": 25.50}</code>) [26, 28, 29].</li>
+                <li><strong>Respuesta (Éxito):</strong> Código <code>201 Created</code> con los detalles del producto recién creado y un mensaje de éxito [28, 30].</li>
+                <li><strong>Respuesta (Error):</strong> Código <code>400 Bad Request</code> si hay un error en los datos de la solicitud o al crear el producto [30].</li>
+            </ul>
+        </li>
+        <li><span class="method">PUT</span> <strong><code>/products/{id}</code></strong>
+            <ul>
+                <li><strong>Descripción:</strong> Actualiza un producto existente en la base de datos utilizando su identificador único (ID) [19, 31].</li>
+                <li><strong>Parámetros de ruta:</strong>
+                    <ul>
+                        <li><code>{id}</code>: El ID del producto a actualizar (Ejemplo: <code>/products/1</code>) [31, 32].</li>
+                    </ul>
+                </li>
+                <li><strong>Cuerpo de la solicitud (Body):</strong> Debe contener los datos del producto a actualizar en formato JSON (Ejemplo: <code>{"name": "Producto Actualizado", "price": 30.00}</code>). Se pueden actualizar uno o varios campos [31-34].</li>
+                <li><strong>Respuesta (Éxito):</strong> Código <code>200 OK</code> con los detalles del producto actualizado y un mensaje de éxito [12, 35].</li>
+                <li><strong>Respuesta (No Encontrado):</strong> Código <code>204 No Content</code> si el producto no existe [12, 35].</li>
+                <li><strong>Respuesta (Error):</strong> Código <code>400 Bad Request</code> si hay un error al actualizar el producto [12].</li>
+            </ul>
+        </li>
+        <li><span class="method">DELETE</span> <strong><code>/products/{id}</code></strong>
+            <ul>
+                <li><strong>Descripción:</strong> Elimina un producto de la base de datos utilizando su identificador único (ID) [19, 36].</li>
+                <li><strong>Parámetros de ruta:</strong>
+                    <ul>
+                        <li><code>{id}</code>: El ID del producto a eliminar (Ejemplo: <code>/products/4</code>) [36, 37].</li>
+                    </ul>
+                </li>
+                <li><strong>Respuesta (Éxito):</strong> Código <code>200 OK</code> si el producto se ha eliminado correctamente [13, 37].</li>
+                <li><strong>Respuesta (No Encontrado):</strong> Código <code>204 No Content</code> si el producto con el ID especificado no existe [13, 38].</li>
+                <li><strong>Respuesta (Error):</strong> Código <code>400 Bad Request</code> si hay un error al eliminar el producto [13].</li>
+            </ul>
+        </li>
+        <li><span class="method">ANY</span> <strong>Cualquier otra ruta (endpoint inexistente)</strong>
+            <ul>
+                <li><strong>Descripción:</strong> Maneja las solicitudes a rutas que no están definidas en la API [17, 39].</li>
+                <li><strong>Respuesta:</strong> Código <code>404 Not Found</code> con un mensaje JSON <code>{"status": 404, "message": "Route not found"}</code> [16, 40].</li>
+            </ul>
+        </li>
+    </ul>
+</body>
+</html>
